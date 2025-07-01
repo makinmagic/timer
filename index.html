@@ -164,8 +164,13 @@ body {
 
     <div id="timer">00:00</div>
     <div id="object-name"></div>
-  </div>
+    
+    <div id="smo-countdown" style="margin-top: 70px; font-size: 18px; color: #eeba30;">
+  Time until the daily SMO changes: <span id="smo-timer">Loading...</span>
+</div>
 
+  </div>
+  
 <div id="page-links">
   <a href="https://xenoso.space/" target="_blank">🌐 Main Website</a> |
   <a href="https://makinmagic.github.io/XenoSO/" target="_blank">🔎 Dashboard/Finder</a> |
@@ -252,8 +257,38 @@ stopAlarm();
   }
 }
 
+function updateSMOCountdown() {
+  const now = new Date();
+
+  // Get the current UTC time
+  const utcHours = now.getUTCHours();
+  const utcMinutes = now.getUTCMinutes();
+  const utcSeconds = now.getUTCSeconds();
+
+  const utcNowInSeconds = utcHours * 3600 + utcMinutes * 60 + utcSeconds;
+  const fourAMUTCInSeconds = 4 * 3600;
+
+  let secondsLeft;
+  if (utcNowInSeconds < fourAMUTCInSeconds) {
+    // Later today
+    secondsLeft = fourAMUTCInSeconds - utcNowInSeconds;
+  } else {
+    // Tomorrow's 4am
+    secondsLeft = 24 * 3600 - utcNowInSeconds + fourAMUTCInSeconds;
+  }
+
+  const hours = Math.floor(secondsLeft / 3600);
+  const minutes = Math.floor((secondsLeft % 3600) / 60);
+  const seconds = secondsLeft % 60;
+
+  const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  document.getElementById("smo-timer").textContent = formatted;
+}
+
 window.onload = () => {
   generateStars();
+  updateSMOCountdown();
+  setInterval(updateSMOCountdown, 1000);
 };
     
   </script>
