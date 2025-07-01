@@ -213,12 +213,21 @@ body {
         if (time <= 0) {
           clearInterval(countdown);
           beep.play();
-          alert("Time's up! Ready for the next Money Object?");
+isAlarmPlaying = true;
+alert("Time's up! Ready for the next Money Object?");
+stopAlarm();
         }
 
         time--;
       }, 1000);
     }
+    
+    function stopAlarm() {
+  const beep = document.getElementById("beep");
+  beep.pause();
+  beep.currentTime = 0;
+  isAlarmPlaying = false;
+}
 
     function formatTime(seconds) {
       const m = Math.floor(seconds / 60);
