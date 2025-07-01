@@ -10,15 +10,20 @@
 
   <style>
     html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      background-color: #0d0221;
-      color: #f0f0f0;
-      font-family: Arial, sans-serif;
-    }
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #0d0221;
+  color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  position: relative; /* ✅ Important to allow stacking */
+  z-index: 0; /* ✅ Ensure it stacks above the -1 layer */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
 
     .main-content {
       flex: 1;
