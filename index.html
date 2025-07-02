@@ -208,6 +208,12 @@ body {
       const objectNameDisplay = document.getElementById("object-name");
       const beep = document.getElementById("beep");
 
+      beep.play().then(() => {
+  beep.pause();
+  beep.currentTime = 0;
+}).catch(() => {
+});
+
       objectNameDisplay.textContent = `Timer started for: ${selected.charAt(0).toUpperCase() + selected.slice(1)} (${formatTime(duration)})`;
 
       countdown = setInterval(() => {
