@@ -10,26 +10,30 @@
 
   <style>
     html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #0d0221;
-  color: #f0f0f0;
-  font-family: Arial, sans-serif;
-  position: relative; 
-  z-index: 0;
-}
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #0d0221;
+      color: #f0f0f0;
+      font-family: Arial, sans-serif;
+      position: relative; 
+      z-index: 0;
+    }
 
-body {
+    body {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
     .main-content {
-      flex: 1;
-      text-align: center;
-      padding: 20px;
-    }
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
 
     h1 {
       color: #C169FF; 
@@ -62,7 +66,7 @@ body {
 
     button {
       font-size: 1.1rem;
-      padding: 10px 20px;
+      padding: 10px 40px;
       margin-top: 20px;
       background-color: #C169FF;
       color: #0d0221;
@@ -99,46 +103,44 @@ body {
     audio {
       display: none;
     }
-    
-    /* Stars background - used with permission from Sorta */
-.stars {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-}
 
-.star {
-  position: absolute;
-  background-color: white;
-  border-radius: 50%;
-  opacity: 0.8;
-}
+    .stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+    }
 
-@keyframes twinkle {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 1; }
-}
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      opacity: 0.8;
+    }
 
-#page-links {
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 16px;
-}
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
 
-#page-links a {
-  color: #c169ff;
-  text-decoration: none;
-  font-weight: bold;
-}
+    #page-links {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
 
-#page-links a:hover {
-  text-decoration: underline;
-}
+    #page-links a {
+      color: #c169ff;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
+    #page-links a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -147,7 +149,7 @@ body {
     <h1>Money Object Timer</h1>
 
     <div class="selection-container">
-      <label for="object-select">Select the MO you're working on:</label>
+      <label for="object-select">MO:</label>
       <select id="object-select">
         <option value="board">Board</option>
         <option value="easel">Easel</option>
@@ -157,34 +159,40 @@ body {
         <option value="phone">Phone</option>
         <option value="potion">Potion</option>  
         <option value="writer">Writer</option>
+        <!--<option value="test">TEST</option>-->
+      </select>
+
+      <label for="alarm-select">Alarm:</label>
+      <select id="alarm-select">
+        <option value="spaceship_alarm.mp3">Spaceship Alarm (Default)</option>
+        <option value="beeping_alarm.mp3">Beeping Alarm</option>
+        <option value="bedside_alarm.mp3">Bedside Alarm</option>
+        <option value="digital_alarm.mp3">Digital Alarm</option>
+        <option value="purge_alarm.mp3">Purge Alarm</option>
+        <option value="security_alarm.mp3">Security Alarm</option>
       </select>
     </div>
 
     <button onclick="startTimer()">Start</button>
-
     <div id="timer">00:00</div>
     <div id="object-name"></div>
-    
     <div id="smo-countdown" style="margin-top: 70px; font-size: 18px; color: #eeba30;">
-  Time until the daily SMO changes: <span id="smo-timer">Loading...</span>
-</div>
-
-  </div>
-  
-<div id="page-links">
-  <a href="https://xenoso.space/" target="_blank">🌐 Main Website</a> |
-  <a href="https://makinmagic.github.io/XenoSO/" target="_blank">🔎 Dashboard/Finder</a> |
-  <a href="https://xenoso.fandom.com/" target="_blank">ℹ️ Wiki</a> |  
-  <a href="https://makinmagic.github.io/pizza/" target="_blank">🍕 Pizza Helper</a>
-</div>
-
-  <div id="footer-note">
-    Made with ⏲️ for XenoSO by Mr Teddy
+      Time until the daily SMO changes: <span id="smo-timer">Loading...</span>
+    </div>
   </div>
 
-  <audio id="beep" preload="auto">
-  <source src="https://makinmagic.github.io/timer/spaceship_alarm.mp3" type="audio/mp3">
-</audio>
+  <div id="page-links">
+    <a href="https://xenoso.space/" target="_blank">🌐 Main Website</a> |
+    <a href="https://makinmagic.github.io/XenoSO/" target="_blank">🔎 Dashboard/Finder</a> |
+    <a href="https://xenoso.fandom.com/" target="_blank">ℹ️ Wiki</a> |  
+    <a href="https://makinmagic.github.io/pizza/" target="_blank">🍕 Pizza Helper</a>
+  </div>
+
+  <div id="footer-note">Made with ⏲️ for XenoSO by Mr Teddy</div>
+
+  <audio id="beep" preload="auto" loop>
+    <source id="alarm-source" src="https://makinmagic.github.io/timer/spaceship_alarm.mp3" type="audio/mp3">
+  </audio>
 
   <script>
     const objectTimes = {
@@ -195,109 +203,126 @@ body {
       "piñata": 245,
       phone: 245,
       potion: 255,
-      writer: 245      
+      writer: 245,
+      test: 5
     };
 
     let countdown;
 
     function startTimer() {
-  const selected = document.getElementById("object-select").value;
-  const duration = objectTimes[selected];
-  const beep = document.getElementById("beep");
-  beep.muted = false;
+      const selected = document.getElementById("object-select").value;
+      const duration = objectTimes[selected];
+      const beep = document.getElementById("beep");
+      const alarmSource = document.getElementById("alarm-source");
+      const selectedAlarm = document.getElementById("alarm-select").value;
+      
+      // Update alarm source
+      alarmSource.src = `https://makinmagic.github.io/timer/${selectedAlarm}`;
+      beep.load(); // Reload the audio file
 
-  // Prime audio
-  beep.play().then(() => {
-    beep.pause();
-    beep.currentTime = 0;
-  }).catch(() => {});
+      beep.muted = false;
+      beep.play().then(() => {
+        beep.pause();
+        beep.currentTime = 0;
+      }).catch(() => {});
 
-  const objectNameDisplay = document.getElementById("object-name");
-  objectNameDisplay.textContent = `Timer started for: ${selected.charAt(0).toUpperCase() + selected.slice(1)} (${formatTime(duration)})`;
+      const objectNameDisplay = document.getElementById("object-name");
+      objectNameDisplay.textContent = `Timer started for: ${selected.charAt(0).toUpperCase() + selected.slice(1)} (${formatTime(duration)})`;
 
-  const timerDisplay = document.getElementById("timer");
-  const endTime = Date.now() + duration * 1000;
+      const timerDisplay = document.getElementById("timer");
+      const endTime = Date.now() + duration * 1000;
 
-  clearInterval(countdown);
-  countdown = setInterval(() => {
-    const remaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
-    const mins = Math.floor(remaining / 60);
-    const secs = remaining % 60;
-    timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-
-    if (remaining <= 0) {
       clearInterval(countdown);
-      beep.play();
-      alert("Time's up! Ready for the next Money Object?");
-      stopAlarm();
+      countdown = setInterval(() => {
+        const remaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+        const mins = Math.floor(remaining / 60);
+        const secs = remaining % 60;
+        timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+        if (remaining <= 0) {
+  clearInterval(countdown);
+  beep.play();
+
+  const modal = document.createElement("div");
+  modal.id = "alarm-modal";
+  modal.style.position = "fixed";
+  modal.style.top = 0;
+  modal.style.left = 0;
+  modal.style.width = "100%";
+  modal.style.height = "100%";
+  modal.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+  modal.style.color = "#fff";
+  modal.style.display = "grid";
+  modal.style.placeItems = "center";
+  modal.style.zIndex = "9999";
+
+  modal.innerHTML = `
+  <div style="text-align: center; margin-top: -150px; margin-left: auto; margin-right: auto; width: fit-content;">
+    <h2 style="margin: 0 0 30px 0;">Time's up! ⏲️</h2>
+    <p style="margin: 0 0 20px 0;">Ready for the next one?</p>
+    <button style="padding: 10px 20px; font-size: 1.1rem; background: #C169FF; color: #0d0221; border: none; border-radius: 5px; cursor: pointer;">Stop Alarm</button>
+  </div>
+`;
+
+  modal.querySelector("button").onclick = () => {
+    stopAlarm();
+    modal.remove();
+  };
+
+  document.body.appendChild(modal);
+}
+      }, 500);
     }
-  }, 500);
-}
-    
+
     function stopAlarm() {
-  const beep = document.getElementById("beep");
-  beep.pause();
-  beep.currentTime = 0;
-  isAlarmPlaying = false;
-}
+      const beep = document.getElementById("beep");
+      beep.pause();
+      beep.currentTime = 0;
+    }
 
     function formatTime(seconds) {
       const m = Math.floor(seconds / 60);
       const s = seconds % 60;
       return `${m}:${s.toString().padStart(2, '0')}`;
     }
-    
+
     function generateStars() {
-  const starsContainer = document.getElementById("stars");
-  const numStars = 100;
+      const starsContainer = document.getElementById("stars");
+      const numStars = 100;
 
-  for (let i = 0; i < numStars; i++) {
-    const star = document.createElement("div");
-    star.classList.add("star");
-    const size = Math.random() * 2 + 1 + "px";
-    star.style.width = size;
-    star.style.height = size;
-    star.style.top = Math.random() * 100 + "%";
-    star.style.left = Math.random() * 100 + "%";
-    star.style.animation = `twinkle ${Math.random() * 5 + 5}s infinite`;
-    starsContainer.appendChild(star);
-  }
-}
+      for (let i = 0; i < numStars; i++) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        const size = Math.random() * 2 + 1 + "px";
+        star.style.width = size;
+        star.style.height = size;
+        star.style.top = Math.random() * 100 + "%";
+        star.style.left = Math.random() * 100 + "%";
+        star.style.animation = `twinkle ${Math.random() * 5 + 5}s infinite`;
+        starsContainer.appendChild(star);
+      }
+    }
 
-function updateSMOCountdown() {
-  const now = new Date();
+    function updateSMOCountdown() {
+      const now = new Date();
+      const utcNowInSeconds = now.getUTCHours() * 3600 + now.getUTCMinutes() * 60 + now.getUTCSeconds();
+      const fourAMUTC = 4 * 3600;
+      let secondsLeft = (utcNowInSeconds < fourAMUTC)
+        ? fourAMUTC - utcNowInSeconds
+        : 86400 - utcNowInSeconds + fourAMUTC;
 
-  // Get the current UTC time
-  const utcHours = now.getUTCHours();
-  const utcMinutes = now.getUTCMinutes();
-  const utcSeconds = now.getUTCSeconds();
+      const hours = Math.floor(secondsLeft / 3600);
+      const minutes = Math.floor((secondsLeft % 3600) / 60);
+      const seconds = secondsLeft % 60;
+      const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      document.getElementById("smo-timer").textContent = formatted;
+    }
 
-  const utcNowInSeconds = utcHours * 3600 + utcMinutes * 60 + utcSeconds;
-  const fourAMUTCInSeconds = 4 * 3600;
-
-  let secondsLeft;
-  if (utcNowInSeconds < fourAMUTCInSeconds) {
-    // Later today
-    secondsLeft = fourAMUTCInSeconds - utcNowInSeconds;
-  } else {
-    // Tomorrow's 4am
-    secondsLeft = 24 * 3600 - utcNowInSeconds + fourAMUTCInSeconds;
-  }
-
-  const hours = Math.floor(secondsLeft / 3600);
-  const minutes = Math.floor((secondsLeft % 3600) / 60);
-  const seconds = secondsLeft % 60;
-
-  const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-  document.getElementById("smo-timer").textContent = formatted;
-}
-
-window.onload = () => {
-  generateStars();
-  updateSMOCountdown();
-  setInterval(updateSMOCountdown, 1000);
-};
-    
+    window.onload = () => {
+      generateStars();
+      updateSMOCountdown();
+      setInterval(updateSMOCountdown, 1000);
+    };
   </script>
 </body>
 </html>
