@@ -182,7 +182,9 @@ body {
     Made with ⏲️ for XenoSO by Mr Teddy
   </div>
 
-  <audio id="beep" src="https://actions.google.com/sounds/v1/alarms/spaceship_alarm.ogg" preload="auto"></audio>
+  <audio id="beep" preload="auto">
+  <source src="https://makinmagic.github.io/timer/spaceship_alarm.mp3" type="audio/mp3">
+</audio>
 
   <script>
     const objectTimes = {
@@ -199,39 +201,38 @@ body {
     let countdown;
 
     function startTimer() {
-      const selected = document.getElementById("object-select").value;
-      const duration = objectTimes[selected];
+  const selected = document.getElementById("object-select").value;
+  const duration = objectTimes[selected];
+  const beep = document.getElementById("beep");
+  beep.muted = false;
 
+  // Prime audio
+  beep.play().then(() => {
+    beep.pause();
+    beep.currentTime = 0;
+  }).catch(() => {});
+
+  const objectNameDisplay = document.getElementById("object-name");
+  objectNameDisplay.textContent = `Timer started for: ${selected.charAt(0).toUpperCase() + selected.slice(1)} (${formatTime(duration)})`;
+
+  const timerDisplay = document.getElementById("timer");
+  const endTime = Date.now() + duration * 1000;
+
+  clearInterval(countdown);
+  countdown = setInterval(() => {
+    const remaining = Math.max(0, Math.floor((endTime - Date.now()) / 1000));
+    const mins = Math.floor(remaining / 60);
+    const secs = remaining % 60;
+    timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+    if (remaining <= 0) {
       clearInterval(countdown);
-      let time = duration;
-      const timerDisplay = document.getElementById("timer");
-      const objectNameDisplay = document.getElementById("object-name");
-      const beep = document.getElementById("beep");
-
-      beep.play().then(() => {
-  beep.pause();
-  beep.currentTime = 0;
-}).catch(() => {
-});
-
-      objectNameDisplay.textContent = `Timer started for: ${selected.charAt(0).toUpperCase() + selected.slice(1)} (${formatTime(duration)})`;
-
-      countdown = setInterval(() => {
-        const mins = Math.floor(time / 60);
-        const secs = time % 60;
-        timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-
-        if (time <= 0) {
-          clearInterval(countdown);
-          beep.play();
-isAlarmPlaying = true;
-alert("Time's up! Ready for the next Money Object?");
-stopAlarm();
-        }
-
-        time--;
-      }, 1000);
+      beep.play();
+      alert("Time's up! Ready for the next Money Object?");
+      stopAlarm();
     }
+  }, 500);
+}
     
     function stopAlarm() {
   const beep = document.getElementById("beep");
