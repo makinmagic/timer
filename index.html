@@ -90,7 +90,7 @@
     #object-name {
       margin-top: 10px;
       font-size: 18px;
-      color: #aaa;
+      color: #f0f0f0;
     }
 
     #footer-note {
@@ -176,6 +176,9 @@
     <button onclick="startTimer()">Start</button>
     <div id="timer">00:00</div>
     <div id="object-name"></div>
+    <p id="timer-warning" style="margin-top: 10px; font-size: 14px; color: #ffcc00; display: none;">
+  ⚠️ Please keep this tab/window open and visible. Some browsers pause timers when tabs are inactive, minimized, or in the background. ⚠️
+</p>
     <div id="smo-countdown" style="margin-top: 70px; font-size: 18px; color: #eeba30;">
       Time until the daily SMO changes: <span id="smo-timer">Loading...</span>
     </div>
@@ -228,6 +231,7 @@
 
       const objectNameDisplay = document.getElementById("object-name");
       objectNameDisplay.textContent = `Timer started for: ${selected.charAt(0).toUpperCase() + selected.slice(1)} (${formatTime(duration)})`;
+      document.getElementById("timer-warning").style.display = "block";
 
       const timerDisplay = document.getElementById("timer");
       const endTime = Date.now() + duration * 1000;
